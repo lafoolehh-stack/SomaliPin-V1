@@ -16,11 +16,17 @@ try {
     </React.StrictMode>
   );
 } catch (error) {
-  console.error("Application crashed:", error);
+  console.error("Application crashed during mount:", error);
   root.render(
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Something went wrong.</h1>
-      <p>Please check the console for more details.</p>
+    <div style={{ padding: '40px', fontFamily: 'sans-serif', color: '#333' }}>
+      <h1 style={{color: '#8B0000'}}>System Error</h1>
+      <p>The application encountered a critical error during startup.</p>
+      <pre style={{background: '#f4f4f4', padding: '10px', borderRadius: '4px', overflow: 'auto'}}>
+        {error instanceof Error ? error.message : String(error)}
+      </pre>
+      <button onclick="window.location.reload()" style={{padding: '10px 20px', marginTop: '10px', cursor: 'pointer'}}>
+        Reload Page
+      </button>
     </div>
   );
 }

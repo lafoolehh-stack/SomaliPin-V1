@@ -2,63 +2,78 @@ import { createClient } from '@supabase/supabase-js';
 
 // Helper to safely access process.env in browser environments
 const getEnv = (key: string) => {
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key];
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env[key];
+    }
+  } catch (e) {
+    // Ignore error
   }
   return '';
 };
 
-// NOTE: In a real production app, these should be in process.env
-// For this environment, we assume the user will configure them or they are injected
 const supabaseUrl = getEnv('SUPABASE_URL');
 const supabaseAnonKey = getEnv('SUPABASE_ANON_KEY');
 
-// Helper to determine if the URL is a valid configuration or a placeholder/empty
-const isValidUrl = (url: string | undefined) => {
-  return url && url.length > 0 && url.startsWith('http') && !url.includes('xyzcompany');
-};
+// Check if valid credentials exist (not empty, not placeholders)
+const hasValidConfig = 
+  supabaseUrl && 
+  supabaseUrl !== '' && 
+  supabaseUrl !== 'https://xyzcompany.supabase.co' &&
+  supabaseAnonKey && 
+  supabaseAnonKey !== '' && 
+  supabaseAnonKey !== 'public-anon-key';
 
-export const isSupabaseConfigured = isValidUrl(supabaseUrl) && !!supabaseAnonKey;
+export const isSupabaseConfigured = !!hasValidConfig;
 
-// Mock client to prevent crashes when config is missing
-// This ensures the 'AuthClient' error doesn't happen during initialization
-const createMockClient = () => {
-  const mockFn = () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } });
+let client;
+
+if (hasValidConfig) {
+  try {
+    // We disable autoRefreshToken and persistSession in this context to avoid
+    // 'AuthClient' errors that can occur in some sandboxed/CDN environments.
+    client = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false
+      }
+    });
+  } catch (error) {
+    console.warn("Supabase client failed to initialize (using mock):", error);
+  }
+}
+
+// Fallback Mock Client to prevent "Cannot read properties of null" crashes in App.tsx
+// This object mimics the structure of the Supabase client so calls don't fail, they just return null/error.
+if (!client) {
+  const mockPromise = async () => ({ data: [], error: null });
   
-  // Mock a filter builder that allows chaining (.eq, .single, etc.)
-  const mockBuilder = {
-    eq: () => mockBuilder,
-    single: () => mockBuilder,
-    order: () => mockBuilder,
-    limit: () => mockBuilder,
-    then: (resolve: any) => resolve({ data: [], error: null }) // Resolve with empty data
+  // Chainable mock function that returns itself or a promise
+  const createMockChain = () => {
+    return {
+      select: () => ({ eq: createMockChain, ...createMockChain() }),
+      insert: mockPromise,
+      update: () => ({ eq: mockPromise }),
+      delete: () => ({ eq: mockPromise }),
+      eq: createMockChain,
+      then: (resolve: any) => Promise.resolve({ data: [], error: null }).then(resolve) // Allow await
+    };
   };
 
-  const mockFrom = () => ({
-    select: () => Promise.resolve({ data: [], error: null }),
-    insert: () => Promise.resolve({ data: null, error: { message: 'Mock: Config missing' } }),
-    update: () => mockBuilder,
-    delete: () => mockBuilder,
-  });
-
-  return {
-    from: mockFrom,
+  client = {
+    from: () => createMockChain(),
     storage: {
       from: () => ({
-        upload: mockFn,
-        getPublicUrl: () => ({ data: { publicUrl: '' } })
+        upload: async () => ({ data: null, error: { message: "Storage not configured" } }),
+        getPublicUrl: () => ({ data: { publicUrl: "" } })
       })
     },
     auth: {
-        signInWithPassword: mockFn,
-        signOut: mockFn,
-        getSession: mockFn
+      signInWithPassword: async () => ({ data: null, error: { message: "Auth not configured" } })
     }
-  } as any;
-};
+  };
+}
 
-// Only initialize the real client if configuration is valid.
-// Otherwise, use the mock client to allow the app to render in "offline/demo" mode.
-export const supabase = isSupabaseConfigured 
-  ? createClient(supabaseUrl!, supabaseAnonKey!) 
-  : createMockClient();
+// Force cast to any to satisfy TS strictness for the mock
+export const supabase = client as any;

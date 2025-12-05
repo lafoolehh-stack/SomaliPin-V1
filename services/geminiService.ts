@@ -3,15 +3,39 @@ import { Language } from "../types";
 
 // Helper to safely access process.env
 const getApiKey = () => {
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env.API_KEY;
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore
   }
   return '';
 };
 
-const ai = new GoogleGenAI({ apiKey: getApiKey() });
+const apiKey = getApiKey();
+let ai: GoogleGenAI | null = null;
+
+// Only initialize if we have a key, otherwise leave null
+if (apiKey) {
+  try {
+    ai = new GoogleGenAI({ apiKey: apiKey });
+  } catch (error) {
+    console.error("Failed to initialize Gemini AI:", error);
+  }
+}
 
 export const askArchive = async (query: string, lang: Language): Promise<string> => {
+  // Guard clause: If AI didn't initialize, return localized fallback immediately
+  if (!ai) {
+    const errorMessages = {
+      en: "The archive intelligence service is currently unavailable (API Key missing).",
+      so: "Adeegga sirdoonka kaydka hadda ma shaqaynayo (Furaha API ayaa maqan).",
+      ar: "خدمة ذكاء الأرشيف غير متاحة حاليًا (مفتاح API مفقود)."
+    };
+    return errorMessages[lang] || errorMessages.en;
+  }
+
   try {
     const languageNames = {
       en: "English",
