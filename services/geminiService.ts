@@ -1,7 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { Language } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Helper to safely access process.env
+const getApiKey = () => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env.API_KEY;
+  }
+  return '';
+};
+
+const ai = new GoogleGenAI({ apiKey: getApiKey() });
 
 export const askArchive = async (query: string, lang: Language): Promise<string> => {
   try {

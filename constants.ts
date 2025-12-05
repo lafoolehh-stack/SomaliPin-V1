@@ -1,4 +1,4 @@
-import { Category, Profile, VerificationLevel, Language } from './types';
+import { Category, Profile, VerificationLevel, Language, ProfileStatus } from './types';
 
 export const UI_TEXT = {
   en: {
@@ -6,6 +6,7 @@ export const UI_TEXT = {
     nav_politics: "Politics",
     nav_business: "Business",
     nav_history: "History",
+    nav_arts: "Arts & Culture",
     nav_login: "Login",
     hero_title_1: "Discover the History of",
     hero_title_2: "Somali Excellence",
@@ -17,6 +18,7 @@ export const UI_TEXT = {
     no_profiles: "No profiles found in the directory.",
     click_search: "Click \"Search\" to query the Intelligence Archives.",
     featured_dossiers: "Featured Dossiers",
+    section_what_we_do: "What we do?",
     service_1_title: "Reputation Building",
     service_1_desc: "We create world-class Digital Dossiers for individuals. We build your profile to have an authoritative presence.",
     service_2_title: "Verification & Security",
@@ -61,13 +63,28 @@ export const UI_TEXT = {
     footer_act: "Data Archive Act",
     footer_contact: "Contact",
     rights: "SomaliPin Digital Archive. All rights reserved.",
-    design_integrity: "Designed with Integrity"
+    design_integrity: "Designed with Integrity",
+    lvl_golden: "Golden Verified",
+    lvl_hero: "National Hero",
+    lvl_standard: "Verified Entity",
+    lvl_unverified: "Unverified",
+    // Lifecycle & Status
+    lbl_status: "Current Status",
+    lbl_born: "Born",
+    lbl_died: "Died",
+    lbl_est: "Founded",
+    lbl_closed: "Closed",
+    status_active: "Active",
+    status_deceased: "Deceased",
+    status_retired: "Retired",
+    status_closed: "Closed"
   },
   so: {
     subtitle: "Kaydka Hal-abuurka Soomaaliyeed",
     nav_politics: "Siyaasadda",
     nav_business: "Ganacsiga",
     nav_history: "Taariikhda",
+    nav_arts: "Farshaxanka & Dhaqanka",
     nav_login: "Galid",
     hero_title_1: "Sahamo Taariikhda",
     hero_title_2: "Hal-doorka Soomaaliyeed",
@@ -79,6 +96,7 @@ export const UI_TEXT = {
     no_profiles: "Lagama helin diiwaanka.",
     click_search: "Guji \"Baar\" si aad u weydiiso Kaydka Sirdoonka.",
     featured_dossiers: "Diiwaanada Ugu Muhiimsan",
+    section_what_we_do: "Maxaan qabanaa?",
     service_1_title: "Dhisidda Sumcadda",
     service_1_desc: "Waxaan shaqsiyaadka u samaynaa \"Digital Dossiers\" heer caalami ah. Waxaanu dhisnaa profile-kaaga si uu u yeesho muuqaal mas'uuliyadeed.",
     service_2_title: "Hubinta & Sugidda",
@@ -123,13 +141,28 @@ export const UI_TEXT = {
     footer_act: "Xeerka Kaydka Xogta",
     footer_contact: "Xiriirka",
     rights: "SomaliPin Digital Archive. Xuquuqda oo dhan way dhowran yihiin.",
-    design_integrity: "Lagu dhisay Hufnaan"
+    design_integrity: "Lagu dhisay Hufnaan",
+    lvl_golden: "Heerka Sare",
+    lvl_hero: "Halyey Qaran",
+    lvl_standard: "Rasmi",
+    lvl_unverified: "Lama Xaqiijin",
+    // Lifecycle & Status
+    lbl_status: "Xaaladda",
+    lbl_born: "Dhalashada",
+    lbl_died: "Dhimashada",
+    lbl_est: "La Aasaasay",
+    lbl_closed: "Xirmay",
+    status_active: "Shaqeeya",
+    status_deceased: "Geeriyooday",
+    status_retired: "Hoolgab",
+    status_closed: "Xirmay"
   },
   ar: {
     subtitle: "أرشيف التميز الصومالي",
     nav_politics: "السياسة",
     nav_business: "الأعمال",
     nav_history: "التاريخ",
+    nav_arts: "الفنون والثقافة",
     nav_login: "دخول",
     hero_title_1: "اكتشف تاريخ",
     hero_title_2: "التميز الصومالي",
@@ -141,6 +174,7 @@ export const UI_TEXT = {
     no_profiles: "لم يتم العثور على ملفات تعريف في الدليل.",
     click_search: "انقر فوق \"بحث\" للاستعلام في أرشيف الاستخبارات.",
     featured_dossiers: "ملفات مميزة",
+    section_what_we_do: "ماذا نقدم؟",
     service_1_title: "بناء السمعة",
     service_1_desc: "نقوم بإنشاء ملفات رقمية عالمية المستوى للأفراد. نبني ملفك الشخصي ليكون له حضور رسمي ومسؤول.",
     service_2_title: "التحقق والأمان",
@@ -185,8 +219,29 @@ export const UI_TEXT = {
     footer_act: "قانون أرشيف البيانات",
     footer_contact: "اتصل بنا",
     rights: "أرشيف الصومال بن الرقمي. جميع الحقوق محفوظة.",
-    design_integrity: "صمم بنزاهة"
+    design_integrity: "صمم بنزاهة",
+    lvl_golden: "موثق ذهبي",
+    lvl_hero: "بطل وطني",
+    lvl_standard: "كيان رسمي",
+    lvl_unverified: "غير موثق",
+    // Lifecycle & Status
+    lbl_status: "الحالة",
+    lbl_born: "الميلاد",
+    lbl_died: "الوفاة",
+    lbl_est: "تأسست",
+    lbl_closed: "مغلق",
+    status_active: "نشط",
+    status_deceased: "متوفي",
+    status_retired: "متقاعد",
+    status_closed: "مغلق"
   }
+};
+
+const CATEGORY_MAP: Record<Category, keyof typeof UI_TEXT['en']> = {
+  [Category.POLITICS]: 'nav_politics',
+  [Category.BUSINESS]: 'nav_business',
+  [Category.HISTORY]: 'nav_history',
+  [Category.ARTS]: 'nav_arts'
 };
 
 const RAW_DATA = [
@@ -197,15 +252,10 @@ const RAW_DATA = [
     verificationLevel: VerificationLevel.GOLDEN,
     imageUrl: 'https://picsum.photos/200/200?grayscale',
     influence: { support: 95, neutral: 3, opposition: 2 },
-    archives: [
-        { id: 'a1', type: 'PDF' as const, title: 'Official Independence Speech 1960', date: 'Jul 1, 1960', size: '2.4 MB' },
-        { id: 'a2', type: 'IMAGE' as const, title: 'Inauguration Ceremony Photo', date: 'Jul 1, 1960', size: '4.1 MB' },
-        { id: 'a3', type: 'AWARD' as const, title: 'Order of the Star of Somalia', date: '1965', size: 'High Res' }
-    ],
-    news: [
-        { id: 'n1', title: 'The Legacy of Aden Adde: A Model for Democracy', source: 'Historical Review', date: 'June 2023', summary: 'An in-depth look at how the first president established democratic norms in the horn of Africa.' },
-        { id: 'n2', title: 'Airport Renaming Ceremony Anniversary', source: 'Mogadishu Times', date: 'Jan 2024', summary: 'Celebrations mark the anniversary of renaming Mogadishu International Airport in his honor.' }
-    ],
+    isOrganization: false,
+    status: 'DECEASED' as ProfileStatus,
+    dateStart: '1908',
+    dateEnd: '2007',
     content: {
       en: {
         name: 'Aden Adde',
@@ -218,6 +268,15 @@ const RAW_DATA = [
             { year: '1944', title: 'SYL Member', description: 'Joined the Somali Youth League.' },
             { year: '1960', title: 'Presidency', description: 'Elected as the first President of the Somali Republic.' },
             { year: '1967', title: 'Peaceful Transfer', description: 'First African leader to peacefully hand over power to a democratically elected successor.' }
+        ],
+        archives: [
+            { id: 'a1', type: 'PDF' as const, title: 'Official Independence Speech 1960', date: 'Jul 1, 1960', size: '2.4 MB' },
+            { id: 'a2', type: 'IMAGE' as const, title: 'Inauguration Ceremony Photo', date: 'Jul 1, 1960', size: '4.1 MB' },
+            { id: 'a3', type: 'AWARD' as const, title: 'Order of the Star of Somalia', date: '1965', size: 'High Res' }
+        ],
+        news: [
+            { id: 'n1', title: 'The Legacy of Aden Adde: A Model for Democracy', source: 'Historical Review', date: 'June 2023', summary: 'An in-depth look at how the first president established democratic norms in the horn of Africa.' },
+            { id: 'n2', title: 'Airport Renaming Ceremony Anniversary', source: 'Mogadishu Times', date: 'Jan 2024', summary: 'Celebrations mark the anniversary of renaming Mogadishu International Airport in his honor.' }
         ]
       },
       so: {
@@ -231,6 +290,15 @@ const RAW_DATA = [
             { year: '1944', title: 'Xubin SYL', description: 'Wuxuu ku biiray Ururkii Dhalinyarada Soomaaliyeed.' },
             { year: '1960', title: 'Madaxweynenimo', description: 'Waxaa loo doortay Madaxweynihii ugu horeeyay ee Jamhuuriyadda Soomaaliya.' },
             { year: '1967', title: 'Xil Wareejin', description: 'Hoggaamiyihii ugu horeeyay ee Afrika ee si nabad ah xilka u wareejiya.' }
+        ],
+        archives: [
+            { id: 'a1', type: 'PDF' as const, title: 'Khudbaddii Xorriyadda 1960', date: 'Luulyo 1, 1960', size: '2.4 MB' },
+            { id: 'a2', type: 'IMAGE' as const, title: 'Sawirka Xafladda Caleema Saarka', date: 'Luulyo 1, 1960', size: '4.1 MB' },
+            { id: 'a3', type: 'AWARD' as const, title: 'Abaalmarinta Xiddigta Soomaaliya', date: '1965', size: 'Sare' }
+        ],
+        news: [
+            { id: 'n1', title: 'Dhaxalkii Aadan Cadde: Tusaale u ah Dimuqraadiyadda', source: 'Dib u eegista Taariikhda', date: 'Juun 2023', summary: 'Eegid qoto dheer sida madaxweynihii ugu horeeyay u hirgeliyay nidaamka dimuqraadiyadda Geeska Afrika.' },
+            { id: 'n2', title: 'Xuska Magac-bixinta Garoonka Diyaaradaha', source: 'Wargeyska Muqdisho', date: 'Jan 2024', summary: 'Dabaaldegyo lagu xusayo sannad-guurada magac-bixinta Garoonka Caalamiga ah ee Aadan Cadde.' }
         ]
       },
       ar: {
@@ -244,6 +312,15 @@ const RAW_DATA = [
             { year: '1944', title: 'عضو SYL', description: 'انضم إلى رابطة الشباب الصومالي.' },
             { year: '1960', title: 'الرئاسة', description: 'انتخب كأول رئيس لجمهورية الصومال.' },
             { year: '1967', title: 'النقل السلمي', description: 'أول زعيم أفريقي يسلم السلطة سلمياً لخليفة منتخب ديمقراطياً.' }
+        ],
+        archives: [
+            { id: 'a1', type: 'PDF' as const, title: 'خطاب الاستقلال الرسمي 1960', date: '1 يوليو 1960', size: '2.4 MB' },
+            { id: 'a2', type: 'IMAGE' as const, title: 'صورة حفل التنصيب', date: '1 يوليو 1960', size: '4.1 MB' },
+            { id: 'a3', type: 'AWARD' as const, title: 'وسام نجمة الصومال', date: '1965', size: 'دقة عالية' }
+        ],
+        news: [
+            { id: 'n1', title: 'إرث آدم عدي: نموذج للديمقراطية', source: 'المراجعة التاريخية', date: 'يونيو 2023', summary: 'نظرة متعمقة حول كيفية ترسيخ الرئيس الأول للمعايير الديمقراطية في القرن الأفريقي.' },
+            { id: 'n2', title: 'ذكرى إعادة تسمية المطار', source: 'أوقات مقديشو', date: 'يناير 2024', summary: 'احتفالات بمناسبة ذكرى إعادة تسمية مطار مقديشو الدولي تكريماً له.' }
         ]
       }
     }
@@ -255,13 +332,10 @@ const RAW_DATA = [
     verificationLevel: VerificationLevel.HERO,
     imageUrl: 'https://picsum.photos/205/205?grayscale',
     influence: { support: 99, neutral: 1, opposition: 0 },
-    archives: [
-        { id: 'h1', type: 'AWARD' as const, title: 'Medal of Honor (Posthumous)', date: '2022', size: 'Image' },
-        { id: 'h2', type: 'IMAGE' as const, title: 'Field Operation Archive', date: '2021', size: '3.5 MB' }
-    ],
-    news: [
-        { id: 'hn1', title: 'Nation Mourns General Farhan Qaroole', source: 'State Media', date: 'Sept 2022', summary: 'Thousands gather to pay respects to the fallen commander who dedicated his life to peace.' }
-    ],
+    isOrganization: false,
+    status: 'DECEASED' as ProfileStatus,
+    dateStart: 'Unknown',
+    dateEnd: '2022',
     content: {
       en: {
         name: 'Gen. Farhan Qaroole',
@@ -273,6 +347,13 @@ const RAW_DATA = [
             { year: 'Early Career', title: 'Service', description: 'Joined the security forces dedicating his life to stabilizing the capital.' },
             { year: '2021', title: 'Police Commander', description: 'Appointed as the Mogadishu Police Commander.' },
             { year: '2022', title: 'Martyrdom', description: 'Tragically killed in a roadside explosion near Bal\'ad while leading a security operation.' }
+        ],
+        archives: [
+            { id: 'h1', type: 'AWARD' as const, title: 'Medal of Honor (Posthumous)', date: '2022', size: 'Image' },
+            { id: 'h2', type: 'IMAGE' as const, title: 'Field Operation Archive', date: '2021', size: '3.5 MB' }
+        ],
+        news: [
+            { id: 'hn1', title: 'Nation Mourns General Farhan Qaroole', source: 'State Media', date: 'Sept 2022', summary: 'Thousands gather to pay respects to the fallen commander who dedicated his life to peace.' }
         ]
       },
       so: {
@@ -285,6 +366,13 @@ const RAW_DATA = [
             { year: 'Bilowgii', title: 'Adeegga', description: 'Wuxuu ku biiray ciidamada amniga isagoo naftiisa u huray xasilinta caasimadda.' },
             { year: '2021', title: 'Taliyaha Booliska', description: 'Waxaa loo magacaabay Taliyaha Booliska Muqdisho.' },
             { year: '2022', title: 'Shahiid', description: 'Wuxuu si murugo leh ugu dhintay qarax miino meel u dhow Balcad.' }
+        ],
+        archives: [
+            { id: 'h1', type: 'AWARD' as const, title: 'Biladda Sharaf (Geerida Kadib)', date: '2022', size: 'Sawir' },
+            { id: 'h2', type: 'IMAGE' as const, title: 'Kaydka Hawlgalka', date: '2021', size: '3.5 MB' }
+        ],
+        news: [
+            { id: 'hn1', title: 'Qaranka oo u Baroordiiqaya Jeneraal Farxaan Qaroole', source: 'Warbaahinta Qaranka', date: 'Seb 2022', summary: 'Kumanaan dadweyne ah ayaa isugu soo baxay si ay u xushmeeyaan taliyihii geeriyooday ee naftiisa u huray nabadda.' }
         ]
       },
       ar: {
@@ -297,6 +385,13 @@ const RAW_DATA = [
             { year: 'بداية المسيرة', title: 'الخدمة', description: 'انضم إلى قوات الأمن وكرس حياته لاستقرار العاصمة.' },
             { year: '2021', title: 'قائد الشرطة', description: 'عين قائدا لشرطة مقديشو.' },
             { year: '2022', title: 'الشهادة', description: 'استشهد بشكل مأساوي في انفجار عبوة ناسفة بالقرب من بلد.' }
+        ],
+        archives: [
+            { id: 'h1', type: 'AWARD' as const, title: 'وسام الشرف (بعد الوفاة)', date: '2022', size: 'صورة' },
+            { id: 'h2', type: 'IMAGE' as const, title: 'أرشيف العمليات الميدانية', date: '2021', size: '3.5 MB' }
+        ],
+        news: [
+            { id: 'hn1', title: 'الأمة تنعي الجنرال فرحان قارولي', source: 'إعلام الدولة', date: 'سبتمبر 2022', summary: 'الآلاف يتجمعون لتقديم العزاء للقائد الشهيد الذي كرس حياته للسلام.' }
         ]
       }
     }
@@ -308,13 +403,9 @@ const RAW_DATA = [
     verificationLevel: VerificationLevel.GOLDEN,
     imageUrl: 'https://picsum.photos/201/201?grayscale',
     influence: { support: 92, neutral: 6, opposition: 2 },
-    archives: [
-        { id: 'b1', type: 'PDF' as const, title: 'Annual Sustainability Report 2023', date: 'Dec 2023', size: '5.2 MB' },
-        { id: 'b2', type: 'AWARD' as const, title: 'Global Excellence in Finance', date: '2022', size: 'N/A' }
-    ],
-    news: [
-        { id: 'bn1', title: 'Dahabshiil Launches New Micro-finance Initiative', source: 'Financial Post', date: 'Mar 2024', summary: 'The group announces 5 million USD fund to support small businesses in the region.' }
-    ],
+    isOrganization: true,
+    status: 'ACTIVE' as ProfileStatus,
+    dateStart: '1970',
     content: {
       en: {
         name: 'Dahabshiil Group',
@@ -327,6 +418,13 @@ const RAW_DATA = [
             { year: '1990s', title: 'Remittance Expansion', description: 'Expanded services to serve the Somali diaspora during the civil war.' },
             { year: '2009', title: 'Banking License', description: 'Launched Dahabshiil Bank International.' },
             { year: 'Present', title: 'Global Reach', description: 'Operating in over 126 countries worldwide.' }
+        ],
+        archives: [
+            { id: 'b1', type: 'PDF' as const, title: 'Annual Sustainability Report 2023', date: 'Dec 2023', size: '5.2 MB' },
+            { id: 'b2', type: 'AWARD' as const, title: 'Global Excellence in Finance', date: '2022', size: 'N/A' }
+        ],
+        news: [
+            { id: 'bn1', title: 'Dahabshiil Launches New Micro-finance Initiative', source: 'Financial Post', date: 'Mar 2024', summary: 'The group announces 5 million USD fund to support small businesses in the region.' }
         ]
       },
       so: {
@@ -340,6 +438,13 @@ const RAW_DATA = [
             { year: '1990s', title: 'Fidinta Xawaaladda', description: 'Waxay ballaarisay adeegyada qurba-joogta intii lagu jiray dagaalkii sokeeye.' },
             { year: '2009', title: 'Liisanka Bangiga', description: 'Waxay daah-furtay Bangiga Caalamiga ah ee Dahabshiil.' },
             { year: 'Hadda', title: 'Gaarista Caalamka', description: 'Waxay ka hawlgashaa in ka badan 126 waddan.' }
+        ],
+        archives: [
+            { id: 'b1', type: 'PDF' as const, title: 'Warbixinta Joogtaynta Sannadlaha 2023', date: 'Dis 2023', size: '5.2 MB' },
+            { id: 'b2', type: 'AWARD' as const, title: 'Abaalmarinta Caalamiga ah ee Maaliyadda', date: '2022', size: 'N/A' }
+        ],
+        news: [
+            { id: 'bn1', title: 'Dahabshiil oo Daahfurtay Hindise Cusub', source: 'Wargeyska Ganacsiga', date: 'Mar 2024', summary: 'Kooxda ayaa ku dhawaaqday sanduuq lacageed oo dhan 5 milyan oo doolar oo lagu taageerayo ganacsiyada yaryar.' }
         ]
       },
       ar: {
@@ -353,6 +458,13 @@ const RAW_DATA = [
             { year: '1990s', title: 'توسع التحويلات', description: 'توسيع الخدمات لخدمة الشتات الصومالي خلال الحرب الأهلية.' },
             { year: '2009', title: 'ترخيص بنكي', description: 'إطلاق بنك دهب شيل الدولي.' },
             { year: 'الحاضر', title: 'الانتشار العالمي', description: 'تعمل في أكثر من 126 دولة حول العالم.' }
+        ],
+        archives: [
+            { id: 'b1', type: 'PDF' as const, title: 'تقرير الاستدامة السنوي 2023', date: 'ديسمبر 2023', size: '5.2 MB' },
+            { id: 'b2', type: 'AWARD' as const, title: 'التميز العالمي في التمويل', date: '2022', size: 'N/A' }
+        ],
+        news: [
+            { id: 'bn1', title: 'دهب شيل تطلق مبادرة جديدة للتمويل الأصغر', source: 'المنشور المالي', date: 'مارس 2024', summary: 'تعلن المجموعة عن صندوق بقيمة 5 ملايين دولار لدعم الشركات الصغيرة في المنطقة.' }
         ]
       }
     }
@@ -364,6 +476,10 @@ const RAW_DATA = [
     verificationLevel: VerificationLevel.HERO,
     imageUrl: 'https://picsum.photos/202/202?grayscale',
     influence: { support: 98, neutral: 2, opposition: 0 },
+    isOrganization: false,
+    status: 'DECEASED' as ProfileStatus,
+    dateStart: '1947',
+    dateEnd: '2020',
     content: {
       en: {
         name: 'Dr. Hawa Abdi',
@@ -376,7 +492,9 @@ const RAW_DATA = [
             { year: '1971', title: 'Medical Degree', description: 'Became one of Somalia\'s first female gynecologists.' },
             { year: '1983', title: 'Clinic Founded', description: 'Opened the Rural Health Development Organisation (RHDO).' },
             { year: '2012', title: 'Nobel Nomination', description: 'Nominated for the Nobel Peace Prize for her humanitarian efforts.' }
-        ]
+        ],
+        archives: [],
+        news: []
       },
       so: {
         name: 'Dr. Xaawo Cabdi',
@@ -389,7 +507,9 @@ const RAW_DATA = [
             { year: '1971', title: 'Shahaadada Caafimaadka', description: 'Waxay noqotay mid ka mid ah dhaqaatiirta haweenka ee ugu horeeyay Soomaaliya.' },
             { year: '1983', title: 'Aasaaska Rugta', description: 'Waxay furtay Ururka Horumarinta Caafimaadka Miyiga (RHDO).' },
             { year: '2012', title: 'Magacaabista Nobel', description: 'Waxaa loo magacaabay Abaalmarinta Nabadda ee Nobel.' }
-        ]
+        ],
+        archives: [],
+        news: []
       },
       ar: {
         name: 'د. حواء عبدي',
@@ -402,7 +522,9 @@ const RAW_DATA = [
             { year: '1971', title: 'الشهادة الطبية', description: 'أصبحت واحدة من أوائل طبيبات النساء في الصومال.' },
             { year: '1983', title: 'تأسيس العيادة', description: 'افتتحت منظمة تنمية الصحة الريفية (RHDO).' },
             { year: '2012', title: 'ترشيح نوبل', description: 'رشحت لجائزة نوبل للسلام لجهودها الإنسانية.' }
-        ]
+        ],
+        archives: [],
+        news: []
       }
     }
   },
@@ -413,6 +535,9 @@ const RAW_DATA = [
     verificationLevel: VerificationLevel.GOLDEN,
     imageUrl: 'https://picsum.photos/203/203?grayscale',
     influence: { support: 70, neutral: 20, opposition: 10 },
+    isOrganization: true,
+    status: 'ACTIVE' as ProfileStatus,
+    dateStart: '2002',
     content: {
       en: {
         name: 'Hormuud Telecom',
@@ -424,7 +549,9 @@ const RAW_DATA = [
             { year: '2002', title: 'Establishment', description: 'Founded by a group of shareholders in Mogadishu.' },
             { year: '2011', title: 'EVC Plus', description: 'Launched the mobile money service EVC Plus.' },
             { year: '2013', title: '4G LTE', description: 'First to introduce 4G services in the region.' }
-        ]
+        ],
+        archives: [],
+        news: []
       },
       so: {
         name: 'Shirkadda Hormuud',
@@ -436,7 +563,9 @@ const RAW_DATA = [
             { year: '2002', title: 'Aasaaskii', description: 'Waxaa aasaasay koox saamilay ah oo ku sugan Muqdisho.' },
             { year: '2011', title: 'EVC Plus', description: 'Daah-furka adeegga lacagaha mobile-ka ee EVC Plus.' },
             { year: '2013', title: '4G LTE', description: 'Tii ugu horreysay ee soo bandhigta adeegyada 4G ee gobolka.' }
-        ]
+        ],
+        archives: [],
+        news: []
       },
       ar: {
         name: 'هرمود للاتصالات',
@@ -448,7 +577,9 @@ const RAW_DATA = [
             { year: '2002', title: 'التأسيس', description: 'تأسست من قبل مجموعة من المساهمين في مقديشو.' },
             { year: '2011', title: 'EVC Plus', description: 'إطلاق خدمة الأموال عبر الهاتف المحمول EVC Plus.' },
             { year: '2013', title: '4G LTE', description: 'الأولى التي تقدم خدمات 4G في المنطقة.' }
-        ]
+        ],
+        archives: [],
+        news: []
       }
     }
   },
@@ -459,9 +590,9 @@ const RAW_DATA = [
       verificationLevel: VerificationLevel.GOLDEN,
       imageUrl: 'https://picsum.photos/204/204?grayscale',
       influence: { support: 95, neutral: 4, opposition: 1 },
-      archives: [
-        { id: 'e1', type: 'IMAGE' as const, title: 'Hospital Groundbreaking', date: '1999', size: '1.2 MB' }
-      ],
+      isOrganization: false,
+      status: 'ACTIVE' as ProfileStatus,
+      dateStart: '1937',
       content: {
         en: {
           name: 'Edna Adan Ismail',
@@ -473,7 +604,11 @@ const RAW_DATA = [
               { year: '1937', title: 'Birth', description: 'Born in Hargeisa.' },
               { year: '2002', title: 'Hospital Opening', description: 'Opened the Edna Adan Maternity Hospital.' },
               { year: '2003', title: 'Foreign Minister', description: 'Served as Minister of Foreign Affairs for Somaliland.' }
-          ]
+          ],
+          archives: [
+            { id: 'e1', type: 'IMAGE' as const, title: 'Hospital Groundbreaking', date: '1999', size: '1.2 MB' }
+          ],
+          news: []
         },
         so: {
           name: 'Edna Aadan Ismaaciil',
@@ -485,7 +620,11 @@ const RAW_DATA = [
               { year: '1937', title: 'Dhalasho', description: 'Waxay ku dhalatay Hargeysa.' },
               { year: '2002', title: 'Furitaanka Isbitaalka', description: 'Waxay furtay Isbitaalka Edna Aadan.' },
               { year: '2003', title: 'Wasiirka Arrimaha Dibadda', description: 'Waxay noqotay Wasiirka Arrimaha Dibadda ee Somaliland.' }
-          ]
+          ],
+          archives: [
+            { id: 'e1', type: 'IMAGE' as const, title: 'Dhagax-dhiggii Isbitaalka', date: '1999', size: '1.2 MB' }
+          ],
+          news: []
         },
         ar: {
           name: 'إدنا عدن إسماعيل',
@@ -497,7 +636,11 @@ const RAW_DATA = [
               { year: '1937', title: 'الميلاد', description: 'ولدت في هرجيسا.' },
               { year: '2002', title: 'افتتاح المستشفى', description: 'افتتحت مستشفى إدنا عدن للولادة.' },
               { year: '2003', title: 'وزيرة الخارجية', description: 'شغلت منصب وزير الخارجية في صوماليلاند.' }
-          ]
+          ],
+          archives: [
+            { id: 'e1', type: 'IMAGE' as const, title: 'وضع حجر الأساس للمستشفى', date: '1999', size: '1.2 MB' }
+          ],
+          news: []
         }
       }
   },
@@ -508,6 +651,9 @@ const RAW_DATA = [
       verificationLevel: VerificationLevel.STANDARD,
       imageUrl: 'https://picsum.photos/206/206?grayscale',
       influence: { support: 60, neutral: 30, opposition: 10 },
+      isOrganization: true,
+      status: 'ACTIVE' as ProfileStatus,
+      dateStart: '2015',
       content: {
         en: {
           name: 'Blue Sky Aviation',
@@ -518,7 +664,9 @@ const RAW_DATA = [
           timeline: [
               { year: '2015', title: 'Founded', description: 'Started as a cargo charter service.' },
               { year: '2018', title: 'Commercial Flights', description: 'Began passenger services to Nairobi and Djibouti.' }
-          ]
+          ],
+          archives: [],
+          news: []
         },
         so: {
           name: 'Blue Sky Aviation',
@@ -529,7 +677,9 @@ const RAW_DATA = [
           timeline: [
               { year: '2015', title: 'Aasaaskii', description: 'Waxay ku bilaabatay adeeg xamuul.' },
               { year: '2018', title: 'Duulimaadyada Ganacsiga', description: 'Waxay bilowday adeegga rakaabka ee Nairobi iyo Jabuuti.' }
-          ]
+          ],
+          archives: [],
+          news: []
         },
         ar: {
           name: 'طيران السماء الزرقاء',
@@ -540,7 +690,9 @@ const RAW_DATA = [
           timeline: [
               { year: '2015', title: 'التأسيس', description: 'بدأت كخدمة تأجير شحن.' },
               { year: '2018', title: 'الرحلات التجارية', description: 'بدأت خدمات الركاب إلى نيروبي وجيبوتي.' }
-          ]
+          ],
+          archives: [],
+          news: []
         }
       }
   }
@@ -550,12 +702,17 @@ export const getProfiles = (lang: Language): Profile[] => {
   return RAW_DATA.map(p => ({
     id: p.id,
     category: p.category,
+    categoryLabel: UI_TEXT[lang][CATEGORY_MAP[p.category]] || p.category,
     verified: p.verified,
     verificationLevel: p.verificationLevel,
     imageUrl: p.imageUrl,
     influence: p.influence,
-    archives: p.archives || [],
-    news: p.news || [],
+    isOrganization: p.isOrganization,
+    status: p.status,
+    dateStart: p.dateStart,
+    dateEnd: p.dateEnd,
+    archives: p.content[lang].archives || [],
+    news: p.content[lang].news || [],
     name: p.content[lang].name,
     title: p.content[lang].title,
     location: p.content[lang].location,

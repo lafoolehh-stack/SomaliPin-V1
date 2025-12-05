@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 // Using a custom SVG for the Pin to ensure specific branding
 export const BrandPin: React.FC<{ className?: string }> = ({ className }) => (

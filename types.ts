@@ -13,6 +13,8 @@ export enum Category {
 
   export type Language = 'en' | 'so' | 'ar';
 
+  export type ProfileStatus = 'ACTIVE' | 'DECEASED' | 'RETIRED' | 'CLOSED';
+
   export interface TimelineEvent {
     year: string;
     title: string;
@@ -40,12 +42,14 @@ export enum Category {
     neutral: number;
     opposition: number;
   }
-  
+
+  // Frontend Profile Interface
   export interface Profile {
     id: string;
     name: string;
     title: string;
     category: Category;
+    categoryLabel?: string; 
     verified: boolean;
     verificationLevel?: VerificationLevel;
     imageUrl: string;
@@ -56,6 +60,25 @@ export enum Category {
     archives?: ArchiveItem[];
     news?: NewsItem[];
     influence?: InfluenceStats;
+    isOrganization: boolean;
+    status: ProfileStatus;
+    dateStart: string; 
+    dateEnd?: string;
+  }
+
+  // Supabase Database Row Interface
+  export interface DossierDB {
+    id: string;
+    created_at?: string;
+    full_name: string;
+    role: string;
+    bio: string;
+    status: 'Verified' | 'Unverified';
+    reputation_score: number;
+    image_url: string;
+    category: string;
+    verification_level: string;
+    details: any; // JSONB column for extra fields
   }
   
   export interface SearchResult {
